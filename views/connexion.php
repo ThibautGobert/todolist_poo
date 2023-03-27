@@ -1,7 +1,7 @@
 <div class="container h-100">
     <div class="row justify-content-center h-100 align-items-center">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card border border-primary border-5">
                 <div class="card-header">
                     <h4>Connexion</h4>
                 </div>

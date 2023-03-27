@@ -14,6 +14,7 @@ $router->map( 'GET', '/', [HomeController::class, 'index']);
 $router->map( 'GET', '/user/[i:id]/edit', [UserController::class, 'edit'], 'user.edit');
 $router->map( 'GET', '/user/index', [UserController::class, 'index'], 'user.index');
 $router->map( 'GET', '/connexion', [AuthController::class, 'connexion'], 'connexion');
+$router->map( 'POST', '/connexion', [AuthController::class, 'connect'], 'connect');
 
 $match = $router->match();
 
