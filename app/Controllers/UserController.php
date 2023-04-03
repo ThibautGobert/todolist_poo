@@ -26,7 +26,7 @@ class UserController
     {
         $user = new User($id);
         $user = $user->getModel();
-        View::render('user.edit', 'admin', ['user' => $user]);
+        View::render('user-edit', 'admin', ['user' => $user]);
     }
 
     public function update($id)
