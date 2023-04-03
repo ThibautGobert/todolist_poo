@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
-class User
+class User extends Model
 {
-    public $id;
+    public function __construct(int $id = null)
+    {
+        parent::__construct($id);
+    }
+
     public $name;
     public $firstname;
     public $email;
+
+
 }

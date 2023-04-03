@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\User;
+use App\Utils\DB;
+
 class UserController
 {
     /**
@@ -20,6 +23,7 @@ class UserController
      */
     public function edit($id)
     {
-        dd($id);
+        $user = new User($id);
+        dd($user);
     }
 }

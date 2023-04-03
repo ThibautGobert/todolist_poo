@@ -25,8 +25,8 @@ class AuthController
         /**
          * Chercher une correspondance en base de donnée
          */
-        $db = new DB();
-        $pdo = $db->getInstance();
+
+        $pdo = DB::getInstance();
 
         //On récupère l'utilisateur avec l'email qu'on récupère dans $_POST
         /**
@@ -44,6 +44,7 @@ class AuthController
         $statement->execute(['email' => $email]);
 
         $result = $statement->fetch();
+
         dd($result);
         //ensuite on vérifie le mot de passe envoyé avec celui crypté en DB
         $passwordOk = password_verify($_POST['password'], $result[0]['password']);
