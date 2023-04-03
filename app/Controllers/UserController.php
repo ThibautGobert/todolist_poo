@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\User;
 use App\Utils\DB;
+use App\Utils\View;
 
 class UserController
 {
@@ -25,6 +26,12 @@ class UserController
     {
         $user = new User($id);
         $user = $user->getModel();
-        dd($user);
+        View::render('user.edit', 'admin', ['user' => $user]);
+    }
+
+    public function update($id)
+    {
+        $pdo = DB::getInstance();
+        dd($id);
     }
 }

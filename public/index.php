@@ -12,6 +12,7 @@ $router = new AltoRouter();
 
 $router->map( 'GET', '/', [HomeController::class, 'index']);
 $router->map( 'GET', '/user/[i:id]/edit', [UserController::class, 'edit'], 'user.edit');
+$router->map( 'POST', '/user/[i:id]/update', [UserController::class, 'update'], 'user.update');
 $router->map( 'GET', '/user/index', [UserController::class, 'index'], 'user.index');
 $router->map( 'GET', '/connexion', [AuthController::class, 'connexion'], 'connexion');
 $router->map( 'POST', '/connexion', [AuthController::class, 'connect'], 'connect');

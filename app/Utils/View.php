@@ -14,10 +14,13 @@ class View
      * @param array $data
      * @return void
      */
-    public static function render($viewName, $layout = 'main', array $data = []) {
+    public static function render(string $viewName, string $layout = 'main', array $data = []) {
         ob_start();
+
         extract($data);
+
         require __DIR__.'/../../views/'. $viewName .'.php';
+
         $contenu = ob_get_clean();
         require __DIR__.'/../../views/layout/'.$layout.'.php';
     }

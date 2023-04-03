@@ -8,7 +8,7 @@ use PDO;
 class Model
 {
     protected string $table;
-    protected int $id;
+    public int $id;
 
     public function __construct(int $id = null)
     {
