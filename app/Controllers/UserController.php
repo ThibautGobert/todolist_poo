@@ -24,6 +24,7 @@ class UserController
     public function edit($id)
     {
         $user = new User($id);
+        $user = $user->getModel();
         dd($user);
     }
 }
