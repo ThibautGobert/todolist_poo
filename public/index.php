@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
@@ -16,6 +17,8 @@ $router->map( 'POST', '/user/[i:id]/update', [UserController::class, 'update'], 
 $router->map( 'GET', '/user/index', [UserController::class, 'index'], 'user.index');
 $router->map( 'GET', '/connexion', [AuthController::class, 'connexion'], 'connexion');
 $router->map( 'POST', '/connexion', [AuthController::class, 'connect'], 'connect');
+$router->map( 'GET', '/inscription', [AuthController::class, 'inscription'], 'inscription');
+$router->map( 'POST', '/register', [AuthController::class, 'register'], 'register');
 
 $match = $router->match();
 

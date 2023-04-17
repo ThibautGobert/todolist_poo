@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Utils\DB;
+use App\Utils\Redirect;
 use App\Utils\View;
 use PDO;
 
@@ -61,5 +62,58 @@ class AuthController
          */
 
         dd($_POST);
+    }
+
+    public function inscription()
+    {
+        View::render('inscription', 'main', [
+            'title' => 'Page d\'inscription'
+        ]);
+        /**
+         * On réinitialise la session pour effacer les messages d'erreur
+         */
+        session_destroy();
+    }
+
+    public function register()
+    {
+        /**
+         * On récupère les données envoyées par l'utilisateur
+         */
+        $email = $_POST['email'] ?? null;
+        $name = $_POST['name'] ?? null;
+        $firstname = $_POST['firstname'] ?? null;
+        $password = $_POST['password'] ?? null;
+        $password_confirm = $_POST['password_confirm'] ?? null;
+
+        /**
+         * On vérifie si l'email existe déjà en DB
+         */
+        $users = User::where(['email' => $email]);
+        if(count($users) > 0) {
+
+            /**
+             * Rediriger l'utilisateur vers la page d'inscription avec un message
+             */
+            Redirect::to('/inscription', ['error' => 'Adresse email déjà utilisée.', 'name' =>$name]);
+        }
+        /**
+         * On vérifie si le mot de passe et le mot de passe de confirmation sont identiques
+         */
+
+
+
+        /**
+         * On vérifie si le mot de passe et le mot de passe de confirmation sont identique
+         */
+
+        /**
+         * On vérifie que tous les champs requis sont bien là
+         */
+
+
+        /**
+         * On insère en base de données
+         */
     }
 }
