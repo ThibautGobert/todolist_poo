@@ -49,4 +49,32 @@ class Model
         $statement->execute($params);
         return $statement->fetchAll();
     }
+
+    public static function create(array $params)
+    {
+        $pdo = DB::getInstance();
+        /**
+         * INSERT INTO table (nom_colonne_1, nom_colonne_2, ttt, )
+            VALUES ('valeur 1', 'valeur 2')
+         */
+        $columns = '';
+        $values = [];
+        $preparedValues = '';
+        $i = 1;
+        foreach ($params as $column => $value){
+            if($i < count($params)) {
+                $columns .= "$column,";
+                $preparedValues .= "?,";
+            }else {
+                $columns .= "$column";
+                $preparedValues .= "?";
+            }
+            $values[] = $value;
+            $i++;
+        }
+        $sql = 'INSERT INTO ' .static::$table. ' ('.$columns.') VALUES ('.$preparedValues.')';
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($values);
+    }
 }

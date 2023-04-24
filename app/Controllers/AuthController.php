@@ -44,24 +44,27 @@ class AuthController
         $statement->setFetchMode(PDO::FETCH_CLASS, User::class);
         $statement->execute(['email' => $email]);
 
-        $result = $statement->fetch();
-
-        dd($result);
-        //ensuite on vérifie le mot de passe envoyé avec celui crypté en DB
-        $passwordOk = password_verify($_POST['password'], $result[0]['password']);
-
+        $user = $statement->fetch();
 
         /**
-         * Si on trouve un utilisateur=> il sera connecté
+         *
+         * on vérifie le mot de passe envoyé avec celui crypté en DB
+         * */
+        $passwordOk = password_verify($password,$user->password);
+
+        /**
+         * Si le mot de passe est ok
          */
 
-
+        if($passwordOk) {
+            Redirect::to('/', ['success' => 'Connexion réussie !']);
+        }
         /**
          * Sinon on le renverra sur la page de connexion
          * Avec un message d'erreur
          */
+        Redirect::to('/', ['error' => 'Email ou mot de passe incorrect']);
 
-        dd($_POST);
     }
 
     public function inscription()
@@ -69,10 +72,6 @@ class AuthController
         View::render('inscription', 'main', [
             'title' => 'Page d\'inscription'
         ]);
-        /**
-         * On réinitialise la session pour effacer les messages d'erreur
-         */
-        session_destroy();
     }
 
     public function register()
@@ -87,33 +86,70 @@ class AuthController
         $password_confirm = $_POST['password_confirm'] ?? null;
 
         /**
+         * Création d'une variable qui contient les données envoyées
+         * pour les récupérer en cas d'erreur de validation du formulaire
+         */
+
+        $old = [
+            'email' => $email,
+            'name' => $name,
+            'firstname' => $firstname,
+        ];
+
+        /**
          * On vérifie si l'email existe déjà en DB
          */
         $users = User::where(['email' => $email]);
         if(count($users) > 0) {
-
             /**
              * Rediriger l'utilisateur vers la page d'inscription avec un message
              */
-            Redirect::to('/inscription', ['error' => 'Adresse email déjà utilisée.', 'name' =>$name]);
+            Redirect::to('/inscription', [
+                'error' => 'Adresse email déjà utilisée.', 'name' =>$name,
+                'old' => $old
+            ]);
         }
         /**
          * On vérifie si le mot de passe et le mot de passe de confirmation sont identiques
          */
-
-
-
+        if(!$name || !$firstname || !$email) {
+            Redirect::to('/inscription', [
+                'error' => 'Les champs nom, prénom et email sont requis.',
+                'old' => $old
+            ]);
+        }
         /**
-         * On vérifie si le mot de passe et le mot de passe de confirmation sont identique
+         * On vérifie si le mot de passe et le mot de passe de confirmation sont identiques
          */
-
+        if(!$password || !$password_confirm) {
+            Redirect::to('/inscription', [
+                'error' => 'Le champ mot de passe et confirmation de mot de passe sont requis.',
+                'old' => $old
+            ]);
+        }
         /**
-         * On vérifie que tous les champs requis sont bien là
+         * On vérifie si le mot de passe et le mot de passe de confirmation sont identiques
          */
-
+        if($password !== $password_confirm) {
+            Redirect::to('/inscription', [
+                'error' => 'Le champ mot de passe et confirmation de mot de passe doivent être identique.',
+                'old' => $old
+            ]);
+        }
 
         /**
          * On insère en base de données
          */
+
+        User::create([
+            'firstname' => $firstname,
+            'name' => $name,
+            'email' => $email,
+            'password' => password_hash($password , PASSWORD_BCRYPT),
+        ]);
+
+        Redirect::to('/', [
+            'success' => 'Inscription réussie !',
+        ]);
     }
 }

@@ -10,11 +10,33 @@
     <title><?= $title ?? 'Une page' ?></title>
 </head>
 <body>
-<div id="app" class="d-flex flex-column vh-100">
+<div id="app" class="d-flex flex-column min-vh-100">
     <div>
         <?php include __DIR__ . '/includes/nav.php'; ?>
     </div>
     <div class="flex-grow-1">
+        <?php if(isset($_SESSION['error'])): ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <?= $_SESSION['error'] ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+        <?php if(isset($_SESSION['success'])): ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            <?= $_SESSION['success'] ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
         <?= $contenu ?>
     </div>
     <div>

@@ -23,5 +23,9 @@ class View
 
         $contenu = ob_get_clean();
         require __DIR__.'/../../views/layout/'.$layout.'.php';
+        /**
+         * On réinitialise la session pour effacer les messages d'erreur
+         */
+        session_destroy();
     }
 }
